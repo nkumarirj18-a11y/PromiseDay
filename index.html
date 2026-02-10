@@ -126,17 +126,22 @@ button{
 </head>
 <body>
 <div id="clickBubble">Click Me ❤️</div>
+
 <div id="zoomModal" onclick="this.style.display='none'">
     <img id="zoomImg">
 </div>
 
-<audio id="song" src="love.mp3"></audio>
+<audio id="song" src="audio/love.mp3"></audio>
 
 <div class="card">
     <div class="promise-tag">For My Love Nikki ❤️</div>
 
     <div id="asking">
-        <img src="love.gif" style="width:160px;border-radius:20px;">
+        <!-- Tenor GIF embed -->
+        <div class="tenor-gif-embed" data-postid="15580452" data-share-method="host" data-aspect-ratio="1.06667" data-width="100%">
+            <a href="https://tenor.com/view/hug-love-promise-comfort-cuddle-gif-15580452">Hug Love Sticker</a> 
+            from <a href="https://tenor.com/search/hug-stickers">Hug Stickers</a>
+        </div>
         <h2>Nikki, will you be my forever LOVE? ❤️</h2>
         <button id="yesBtn">I Promise 💍</button><br>
         <button id="noBtn">Sochne do 😜</button>
@@ -164,6 +169,8 @@ button{
     </div>
 </div>
 
+<script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+
 <script>
 const noBtn=document.getElementById("noBtn");
 const yesBtn=document.getElementById("yesBtn");
@@ -171,6 +178,7 @@ const asking=document.getElementById("asking");
 const celebration=document.getElementById("celebration");
 const song=document.getElementById("song");
 
+// Click anywhere to create heart
 document.body.addEventListener("click",e=>{
     const h=document.createElement("div");
     h.className="click-heart";
@@ -181,6 +189,7 @@ document.body.addEventListener("click",e=>{
     setTimeout(()=>h.remove(),1000);
 });
 
+// No button fun messages
 const noMsgs=["Nice try 😏","Dubara socho 😜","Escape not allowed 🚫","Dil already mera hai ❤️"];
 noBtn.onclick=()=>{
     noBtn.style.position="absolute";
@@ -189,6 +198,7 @@ noBtn.onclick=()=>{
     noBtn.innerText=noMsgs[Math.floor(Math.random()*noMsgs.length)];
 };
 
+// Yes button → celebration
 yesBtn.onclick=()=>{
     asking.style.display="none";
     celebration.style.display="block";
@@ -198,6 +208,7 @@ yesBtn.onclick=()=>{
     typeWriter();
 };
 
+// Heart rain
 function heartRain(){
     setInterval(()=>{
         const d=document.createElement("div");
@@ -210,8 +221,9 @@ function heartRain(){
     },250);
 }
 
+// Floating heart-shaped photos
 function photoFloat(){
-    const photos=[...Array(14)].map((_,i)=>`p${i+1}.jpeg`);
+    const photos=[...Array(14)].map((_,i)=>`images/p${i+1}.jpeg`);
     setInterval(()=>{
         const div=document.createElement("div");
         div.className="float-img";
@@ -244,6 +256,7 @@ function photoFloat(){
     },1200);
 }
 
+// Typewriter message
 function typeWriter(){
     const t="Nikki, I just need YOU… today, tomorrow & forever ❤️";
     let i=0,box=document.getElementById("typewriter");
