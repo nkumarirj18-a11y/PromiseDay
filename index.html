@@ -18,6 +18,7 @@ body{
     color:#fff;
 }
 
+/* FLASH */
 .flash{animation:flashBg 0.4s ease-in-out 6;}
 @keyframes flashBg{
     0%{background:#ff5fa2;}
@@ -25,6 +26,7 @@ body{
     100%{background:#ff5fa2;}
 }
 
+/* CARD */
 .card{
     background:rgba(0,0,0,0.65);
     backdrop-filter:blur(16px);
@@ -54,6 +56,7 @@ button,input{
     font-size:16px;
     font-weight:bold;
     margin-top:10px;
+    cursor:pointer;
 }
 
 #yesBtn{background:#ff4d9d;color:#2b0020;}
@@ -72,6 +75,7 @@ button,input{
     margin-top:15px;
 }
 
+/* HEARTS */
 .heart{
     position:absolute;
     top:-40px;
@@ -79,12 +83,11 @@ button,input{
     animation:fall linear forwards;
     pointer-events:none;
 }
-
 @keyframes fall{
     to{transform:translateY(110vh) rotate(360deg);opacity:0;}
 }
 
-/* Floating Photos */
+/* FLOATING PHOTOS (GLOW + SHADOW) */
 .float-img{
     position:absolute;
     bottom:-120px;
@@ -93,6 +96,9 @@ button,input{
     object-fit:cover;
     border-radius:12px;
     border:2px solid #ff9ecd;
+    box-shadow:
+        0 0 20px rgba(255,105,180,0.8),
+        0 10px 25px rgba(0,0,0,0.6);
     animation:floatUp 6s linear forwards;
     z-index:5;
 }
@@ -102,14 +108,26 @@ button,input{
 
 #typewriter{margin-top:15px;font-size:16px;}
 
-/* Password Section */
+/* CONFETTI */
+.confetti{
+    position:absolute;
+    width:10px;
+    height:10px;
+    background:red;
+    top:-10px;
+    animation:confettiFall linear forwards;
+}
+@keyframes confettiFall{
+    to{transform:translateY(110vh) rotate(720deg);opacity:0;}
+}
+
+/* PASSWORD */
 #passwordBox{
     margin-top:20px;
     padding:15px;
     border-radius:20px;
     background:rgba(255,255,255,0.1);
 }
-
 #downloadBox{display:none;margin-top:15px;}
 </style>
 </head>
@@ -140,7 +158,6 @@ button,input{
 
         <div id="typewriter"></div>
 
-        <!-- PASSWORD PROTECTED LETTER -->
         <div id="passwordBox">
             <p>🔐 Enter the password to unlock my love letter</p>
             <input type="password" id="password" placeholder="Our secret ❤️">
@@ -148,7 +165,7 @@ button,input{
             <button onclick="checkPassword()">Unlock 💖</button>
 
             <div id="downloadBox">
-                <p>💌 This letter is only for you, Nikki</p>
+                <p>💌 Only for you, Nikki</p>
                 <a href="letter.docx" download>
                     <button style="background:#ffd1e8;color:#2b0020;">
                         Download Love Letter 📄❤️
@@ -170,11 +187,20 @@ const asking=document.getElementById("asking");
 const celebration=document.getElementById("celebration");
 const song=document.getElementById("song");
 
+/* NO BUTTON FUN MESSAGES */
+const noMessages=[
+    "Nice try 😏",
+    "Itna bhaav mat khaao 🙈",
+    "Dil already mera hai ❤️",
+    "Dubara socho 😌",
+    "Escape not allowed 🚫"
+];
+
 noBtn.onclick=()=>{
     noBtn.style.position="absolute";
     noBtn.style.left=Math.random()*80+"vw";
     noBtn.style.top=Math.random()*80+"vh";
-    noBtn.innerText="Tum meri ho 😌";
+    noBtn.innerText=noMessages[Math.floor(Math.random()*noMessages.length)];
 };
 
 yesBtn.onclick=()=>{
@@ -183,11 +209,13 @@ yesBtn.onclick=()=>{
     song.play();
     heartRain();
     photoFloat();
+    confettiBlast();
     typeWriter();
     flashEffect();
     vibrate();
 };
 
+/* HEARTS */
 function heartRain(){
     const emojis=["❤️","💖","💍","✨","😘"];
     setInterval(()=>{
@@ -201,11 +229,9 @@ function heartRain(){
     },250);
 }
 
+/* PHOTOS */
 function photoFloat(){
-    const photos=[
-        "p1.jpeg","p2.jpeg","p3.jpeg","p4.jpeg","p5.jpeg","p6.jpeg","p7.jpeg",
-        "p8.jpeg","p9.jpeg","p10.jpeg","p11.jpeg","p12.jpeg","p13.jpeg","p14.jpeg"
-    ];
+    const photos=[...Array(14)].map((_,i)=>`p${i+1}.jpeg`);
     setInterval(()=>{
         const img=document.createElement("img");
         img.src=photos[Math.floor(Math.random()*photos.length)];
@@ -216,6 +242,21 @@ function photoFloat(){
     },1200);
 }
 
+/* CONFETTI BLAST */
+function confettiBlast(){
+    const colors=["#ff4d9d","#ffd1e8","#fff","#ffeb3b"];
+    for(let i=0;i<80;i++){
+        const div=document.createElement("div");
+        div.className="confetti";
+        div.style.left=Math.random()*100+"vw";
+        div.style.background=colors[Math.floor(Math.random()*colors.length)];
+        div.style.animationDuration=Math.random()*3+2+"s";
+        document.body.appendChild(div);
+        setTimeout(()=>div.remove(),5000);
+    }
+}
+
+/* TYPEWRITER */
 function typeWriter(){
     const text="Nikki, I don't need forever promises… I just need YOU, every single day ❤️";
     let i=0;
@@ -233,12 +274,10 @@ function typeWriter(){
 /* PASSWORD */
 function checkPassword(){
     const pass=document.getElementById("password").value;
-    const correct="nikkiforever"; // 🔑 change if you want
-
-    if(pass===correct){
+    if(pass==="nikkiforever"){
         document.getElementById("downloadBox").style.display="block";
     }else{
-        alert("Wrong password 😜 Try again, my love ❤️");
+        alert("Wrong password 😜 Hint: Your name + forever ❤️");
     }
 }
 
