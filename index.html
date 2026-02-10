@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Happy Promise Day Nikki ❤️</title>
-
+<title>Promise Day Nikki ❤️</title>
 <style>
 body{
     margin:0;
@@ -18,8 +17,6 @@ body{
     color:#fff;
     cursor:pointer;
 }
-
-/* CLICK ME BUBBLE */
 #clickBubble{
     position:fixed;
     bottom:20px;
@@ -33,8 +30,6 @@ body{
     z-index:100;
 }
 @keyframes floatBubble{50%{transform:translateY(-10px);}}
-
-/* HEART POP ON CLICK */
 .click-heart{
     position:absolute;
     font-size:22px;
@@ -45,8 +40,6 @@ body{
     from{transform:scale(0);opacity:1;}
     to{transform:scale(2);opacity:0;top:-40px;}
 }
-
-/* CARD */
 .card{
     background:rgba(0,0,0,0.65);
     backdrop-filter:blur(16px);
@@ -59,7 +52,6 @@ body{
     box-shadow:0 0 45px rgba(255,105,180,0.6);
     z-index:10;
 }
-
 .promise-tag{
     background:linear-gradient(90deg,#ff4d9d,#ffd1e8);
     color:#2b0020;
@@ -68,29 +60,24 @@ body{
     font-weight:bold;
     margin-bottom:20px;
 }
-
-button,input{
+button{
     border:none;
     border-radius:50px;
     padding:14px 30px;
     font-size:16px;
     font-weight:bold;
     margin-top:10px;
+    cursor:pointer;
 }
-
 #yesBtn{background:#ff4d9d;color:#2b0020;}
 #noBtn{background:transparent;color:#ccc;border:1px solid #777;}
-
 #celebration{display:none;}
-
 .promise{
     font-size:16px;
     line-height:1.6;
     color:#ffd1e8;
     margin-top:15px;
 }
-
-/* HEART RAIN */
 .heart{
     position:absolute;
     top:-40px;
@@ -101,8 +88,6 @@ button,input{
 @keyframes fall{
     to{transform:translateY(110vh) rotate(360deg);opacity:0;}
 }
-
-/* ❤️ FLOATING HEART PHOTOS (PULSE) */
 .float-img{
     position:absolute;
     bottom:-120px;
@@ -113,20 +98,7 @@ button,input{
     cursor:pointer;
 }
 @keyframes floatUp{to{transform:translateY(-120vh) rotate(15deg);}}
-@keyframes pulse{
-    0%,100%{transform:scale(1);}
-    50%{transform:scale(1.08);}
-}
-
-.float-img svg{
-    width:100%;
-    height:100%;
-    filter:
-      drop-shadow(0 0 18px rgba(255,105,180,0.9))
-      drop-shadow(0 10px 25px rgba(0,0,0,0.6));
-}
-
-/* ZOOM MODAL */
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.08);}}
 #zoomModal{
     position:fixed;
     inset:0;
@@ -142,10 +114,7 @@ button,input{
     border-radius:20px;
     box-shadow:0 0 40px rgba(255,105,180,0.8);
 }
-
-/* FINAL PROMISE */
 #finalPromise{
-    display:none;
     margin-top:15px;
     padding:18px;
     border-radius:20px;
@@ -155,9 +124,7 @@ button,input{
 }
 </style>
 </head>
-
 <body>
-
 <div id="clickBubble">Click Me ❤️</div>
 <div id="zoomModal" onclick="this.style.display='none'">
     <img id="zoomImg">
@@ -187,13 +154,6 @@ button,input{
 
         <div id="typewriter"></div>
 
-        <div id="passwordBox">
-            <p>🔐 Enter password for one last promise</p>
-            <input type="password" id="password">
-            <br>
-            <button onclick="checkPassword()">Unlock 💖</button>
-        </div>
-
         <div id="finalPromise">
             Nikki ❤️<br>
             I don’t promise perfection…  
@@ -211,7 +171,6 @@ const asking=document.getElementById("asking");
 const celebration=document.getElementById("celebration");
 const song=document.getElementById("song");
 
-/* CLICK HEART */
 document.body.addEventListener("click",e=>{
     const h=document.createElement("div");
     h.className="click-heart";
@@ -222,7 +181,6 @@ document.body.addEventListener("click",e=>{
     setTimeout(()=>h.remove(),1000);
 });
 
-/* NO BUTTON FUN */
 const noMsgs=["Nice try 😏","Dubara socho 😜","Escape not allowed 🚫","Dil already mera hai ❤️"];
 noBtn.onclick=()=>{
     noBtn.style.position="absolute";
@@ -240,7 +198,6 @@ yesBtn.onclick=()=>{
     typeWriter();
 };
 
-/* HEART RAIN */
 function heartRain(){
     setInterval(()=>{
         const d=document.createElement("div");
@@ -253,7 +210,6 @@ function heartRain(){
     },250);
 }
 
-/* HEART PHOTOS + ZOOM */
 function photoFloat(){
     const photos=[...Array(14)].map((_,i)=>`p${i+1}.jpeg`);
     setInterval(()=>{
@@ -288,7 +244,6 @@ function photoFloat(){
     },1200);
 }
 
-/* TYPEWRITER */
 function typeWriter(){
     const t="Nikki, I just need YOU… today, tomorrow & forever ❤️";
     let i=0,box=document.getElementById("typewriter");
@@ -296,14 +251,6 @@ function typeWriter(){
         if(i<t.length){box.innerHTML+=t.charAt(i++);setTimeout(play,70);}
     })();
 }
-
-/* FINAL PROMISE */
-function checkPassword(){
-    if(document.getElementById("password").value==="nikkiforever"){
-        document.getElementById("finalPromise").style.display="block";
-    }else alert("Wrong password 😜");
-}
 </script>
-
 </body>
 </html>
