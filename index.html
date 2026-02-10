@@ -142,6 +142,7 @@ button{
             <a href="https://tenor.com/view/hug-love-promise-comfort-cuddle-gif-15580452">Hug Love Sticker</a> 
             from <a href="https://tenor.com/search/hug-stickers">Hug Stickers</a>
         </div>
+
         <h2>Nikki, will you be my forever LOVE? ❤️</h2>
         <button id="yesBtn">I Promise 💍</button><br>
         <button id="noBtn">Sochne do 😜</button>
@@ -163,7 +164,7 @@ button{
             Nikki ❤️<br>
             I don’t promise perfection…  
             I promise effort, loyalty, and a heart  
-            that will always choose **YOU**.  
+            that will always choose <b>YOU</b>.  
             Forever starts with us 💖
         </div>
     </div>
@@ -223,7 +224,7 @@ function heartRain(){
 
 // Floating heart-shaped photos
 function photoFloat(){
-    const photos=[...Array(14)].map((_,i)=>`images/p${i+1}.jpeg`);
+    const photos=[...Array(14)].map((_,i)=>`p${i+1}.jpeg`);
     setInterval(()=>{
         const div=document.createElement("div");
         div.className="float-img";
