@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Promise Day Nikki ❤️</title>
+
+<style>
+body{
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:radial-gradient(circle,#ff5fa2,#2b0020);
+    font-family:'Segoe UI',sans-serif;
+    overflow:hidden;
+    color:#fff;
+}
+
+.flash{animation:flashBg 0.4s ease-in-out 6;}
+@keyframes flashBg{
+    0%{background:#ff5fa2;}
+    50%{background:#fff;}
+    100%{background:#ff5fa2;}
+}
+
+.card{
+    background:rgba(0,0,0,0.65);
+    backdrop-filter:blur(16px);
+    border-radius:30px;
+    padding:30px;
+    width:90%;
+    max-width:420px;
+    text-align:center;
+    border:2px solid #ff9ecd;
+    box-shadow:0 0 45px rgba(255,105,180,0.6);
+    z-index:10;
+}
+
+.promise-tag{
+    background:linear-gradient(90deg,#ff4d9d,#ffd1e8);
+    color:#2b0020;
+    padding:10px 25px;
+    border-radius:50px;
+    font-weight:bold;
+    margin-bottom:20px;
+}
+
+button,input{
+    border:none;
+    border-radius:50px;
+    padding:14px 30px;
+    font-size:16px;
+    font-weight:bold;
+    margin-top:10px;
+}
+
+#yesBtn{background:#ff4d9d;color:#2b0020;}
+#noBtn{
+    background:transparent;
+    color:#ccc;
+    border:1px solid #777;
+}
+
+#celebration{display:none;}
+
+.promise{
+    font-size:16px;
+    line-height:1.6;
+    color:#ffd1e8;
+    margin-top:15px;
+}
+
+.heart{
+    position:absolute;
+    top:-40px;
+    font-size:28px;
+    animation:fall linear forwards;
+    pointer-events:none;
+}
+
+@keyframes fall{
+    to{transform:translateY(110vh) rotate(360deg);opacity:0;}
+}
+
+/* Floating Photos */
+.float-img{
+    position:absolute;
+    bottom:-120px;
+    width:80px;
+    height:110px;
+    object-fit:cover;
+    border-radius:12px;
+    border:2px solid #ff9ecd;
+    animation:floatUp 6s linear forwards;
+    z-index:5;
+}
+@keyframes floatUp{
+    to{transform:translateY(-120vh) rotate(15deg);}
+}
+
+#typewriter{margin-top:15px;font-size:16px;}
+
+/* Password Section */
+#passwordBox{
+    margin-top:20px;
+    padding:15px;
+    border-radius:20px;
+    background:rgba(255,255,255,0.1);
+}
+
+#downloadBox{display:none;margin-top:15px;}
+</style>
+</head>
+
+<body>
+
+<audio id="song" src="love.mp3"></audio>
+
+<div class="card">
+    <div class="promise-tag">For My Love Nikki ❤️</div>
+
+    <div id="asking">
+        <img src="love.gif" style="width:160px;border-radius:20px;">
+        <h2>Nikki, will you be my forever LOVE? ❤️</h2>
+        <button id="yesBtn">I Promise 💍</button><br>
+        <button id="noBtn">Sochne do 😜</button>
+    </div>
+
+    <div id="celebration">
+        <h3 style="color:#ff9ecd;">My Love & Promises 💖</h3>
+
+        <div class="promise">
+            ❤️ I promise to love you endlessly.<br>
+            ❤️ I promise to fight for us always.<br>
+            ❤️ I promise to protect your smile.<br>
+            ❤️ Nikki, you are my HOME & my LOVE.
+        </div>
+
+        <div id="typewriter"></div>
+
+        <!-- PASSWORD PROTECTED LETTER -->
+        <div id="passwordBox">
+            <p>🔐 Enter the password to unlock my love letter</p>
+            <input type="password" id="password" placeholder="Our secret ❤️">
+            <br>
+            <button onclick="checkPassword()">Unlock 💖</button>
+
+            <div id="downloadBox">
+                <p>💌 This letter is only for you, Nikki</p>
+                <a href="letter.docx" download>
+                    <button style="background:#ffd1e8;color:#2b0020;">
+                        Download Love Letter 📄❤️
+                    </button>
+                </a>
+            </div>
+        </div>
+
+        <p style="margin-top:20px;font-weight:bold;">
+            Happy Promise Day, My Love Nikki ❤️
+        </p>
+    </div>
+</div>
+
+<script>
+const yesBtn=document.getElementById("yesBtn");
+const noBtn=document.getElementById("noBtn");
+const asking=document.getElementById("asking");
+const celebration=document.getElementById("celebration");
+const song=document.getElementById("song");
+
+noBtn.onclick=()=>{
+    noBtn.style.position="absolute";
+    noBtn.style.left=Math.random()*80+"vw";
+    noBtn.style.top=Math.random()*80+"vh";
+    noBtn.innerText="Tum meri ho 😌";
+};
+
+yesBtn.onclick=()=>{
+    asking.style.display="none";
+    celebration.style.display="block";
+    song.play();
+    heartRain();
+    photoFloat();
+    typeWriter();
+    flashEffect();
+    vibrate();
+};
+
+function heartRain(){
+    const emojis=["❤️","💖","💍","✨","😘"];
+    setInterval(()=>{
+        const div=document.createElement("div");
+        div.className="heart";
+        div.innerHTML=emojis[Math.floor(Math.random()*emojis.length)];
+        div.style.left=Math.random()*100+"vw";
+        div.style.animationDuration=Math.random()*3+2+"s";
+        document.body.appendChild(div);
+        setTimeout(()=>div.remove(),5000);
+    },250);
+}
+
+function photoFloat(){
+    const photos=[
+        "p1.jpeg","p2.jpeg","p3.jpeg","p4.jpeg","p5.jpeg","p6.jpeg","p7.jpeg",
+        "p8.jpeg","p9.jpeg","p10.jpeg","p11.jpeg","p12.jpeg","p13.jpeg","p14.jpeg"
+    ];
+    setInterval(()=>{
+        const img=document.createElement("img");
+        img.src=photos[Math.floor(Math.random()*photos.length)];
+        img.className="float-img";
+        img.style.left=Math.random()*90+"vw";
+        document.body.appendChild(img);
+        setTimeout(()=>img.remove(),6000);
+    },1200);
+}
+
+function typeWriter(){
+    const text="Nikki, I don't need forever promises… I just need YOU, every single day ❤️";
+    let i=0;
+    const box=document.getElementById("typewriter");
+    function play(){
+        if(i<text.length){
+            box.innerHTML+=text.charAt(i);
+            i++;
+            setTimeout(play,70);
+        }
+    }
+    play();
+}
+
+/* PASSWORD */
+function checkPassword(){
+    const pass=document.getElementById("password").value;
+    const correct="nikkiforever"; // 🔑 change if you want
+
+    if(pass===correct){
+        document.getElementById("downloadBox").style.display="block";
+    }else{
+        alert("Wrong password 😜 Try again, my love ❤️");
+    }
+}
+
+function flashEffect(){
+    document.body.classList.add("flash");
+    setTimeout(()=>document.body.classList.remove("flash"),2500);
+}
+
+function vibrate(){
+    if(navigator.vibrate){
+        navigator.vibrate([200,100,200,100,300]);
+    }
+}
+</script>
+
+</body>
+</html>
