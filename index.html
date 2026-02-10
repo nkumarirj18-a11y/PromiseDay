@@ -16,6 +16,36 @@ body{
     font-family:'Segoe UI',sans-serif;
     overflow:hidden;
     color:#fff;
+    cursor:pointer;
+}
+
+/* CLICK ME BUBBLE */
+#clickBubble{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    background:#ff4d9d;
+    color:#2b0020;
+    padding:10px 18px;
+    border-radius:50px;
+    font-weight:bold;
+    animation:floatBubble 3s ease-in-out infinite;
+    z-index:100;
+}
+@keyframes floatBubble{
+    50%{transform:translateY(-10px);}
+}
+
+/* HEART POP ON CLICK */
+.click-heart{
+    position:absolute;
+    font-size:22px;
+    animation:pop 1s ease-out forwards;
+    pointer-events:none;
+}
+@keyframes pop{
+    0%{transform:scale(0);opacity:1;}
+    100%{transform:scale(2);opacity:0;top:-40px;}
 }
 
 /* FLASH */
@@ -56,7 +86,6 @@ button,input{
     font-size:16px;
     font-weight:bold;
     margin-top:10px;
-    cursor:pointer;
 }
 
 #yesBtn{background:#ff4d9d;color:#2b0020;}
@@ -75,7 +104,7 @@ button,input{
     margin-top:15px;
 }
 
-/* HEARTS */
+/* HEART RAIN */
 .heart{
     position:absolute;
     top:-40px;
@@ -87,18 +116,18 @@ button,input{
     to{transform:translateY(110vh) rotate(360deg);opacity:0;}
 }
 
-/* FLOATING PHOTOS (GLOW + SHADOW) */
+/* ❤️ HEART SHAPED FLOATING PHOTOS ❤️ */
 .float-img{
     position:absolute;
     bottom:-120px;
-    width:80px;
-    height:110px;
-    object-fit:cover;
-    border-radius:12px;
-    border:2px solid #ff9ecd;
+    width:90px;
+    height:90px;
+    background-size:cover;
+    background-position:center;
+    clip-path: path("M45 15 C45 -5 0 -5 0 20 C0 45 45 75 45 75 C45 75 90 45 90 20 C90 -5 45 -5 45 15 Z");
     box-shadow:
-        0 0 20px rgba(255,105,180,0.8),
-        0 10px 25px rgba(0,0,0,0.6);
+        0 0 25px rgba(255,105,180,0.9),
+        0 10px 30px rgba(0,0,0,0.6);
     animation:floatUp 6s linear forwards;
     z-index:5;
 }
@@ -113,7 +142,6 @@ button,input{
     position:absolute;
     width:10px;
     height:10px;
-    background:red;
     top:-10px;
     animation:confettiFall linear forwards;
 }
@@ -133,6 +161,8 @@ button,input{
 </head>
 
 <body>
+
+<div id="clickBubble">Click Me ❤️</div>
 
 <audio id="song" src="love.mp3"></audio>
 
@@ -160,12 +190,11 @@ button,input{
 
         <div id="passwordBox">
             <p>🔐 Enter the password to unlock my love letter</p>
-            <input type="password" id="password" placeholder="Our secret ❤️">
+            <input type="password" id="password">
             <br>
             <button onclick="checkPassword()">Unlock 💖</button>
 
             <div id="downloadBox">
-                <p>💌 Only for you, Nikki</p>
                 <a href="letter.docx" download>
                     <button style="background:#ffd1e8;color:#2b0020;">
                         Download Love Letter 📄❤️
@@ -173,34 +202,34 @@ button,input{
                 </a>
             </div>
         </div>
-
-        <p style="margin-top:20px;font-weight:bold;">
-            Happy Promise Day, My Love Nikki ❤️
-        </p>
     </div>
 </div>
 
 <script>
-const yesBtn=document.getElementById("yesBtn");
 const noBtn=document.getElementById("noBtn");
+const yesBtn=document.getElementById("yesBtn");
 const asking=document.getElementById("asking");
 const celebration=document.getElementById("celebration");
 const song=document.getElementById("song");
 
-/* NO BUTTON FUN MESSAGES */
-const noMessages=[
-    "Nice try 😏",
-    "Itna bhaav mat khaao 🙈",
-    "Dil already mera hai ❤️",
-    "Dubara socho 😌",
-    "Escape not allowed 🚫"
-];
+/* CLICK ANYWHERE HEART */
+document.body.addEventListener("click",e=>{
+    const h=document.createElement("div");
+    h.className="click-heart";
+    h.innerHTML="❤️";
+    h.style.left=e.pageX+"px";
+    h.style.top=e.pageY+"px";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),1000);
+});
 
+/* NO BUTTON FUN */
+const noMsgs=["Nice try 😏","Dubara socho 😜","Escape not allowed 🚫","Dil mera hai ❤️"];
 noBtn.onclick=()=>{
     noBtn.style.position="absolute";
     noBtn.style.left=Math.random()*80+"vw";
     noBtn.style.top=Math.random()*80+"vh";
-    noBtn.innerText=noMessages[Math.floor(Math.random()*noMessages.length)];
+    noBtn.innerText=noMsgs[Math.floor(Math.random()*noMsgs.length)];
 };
 
 yesBtn.onclick=()=>{
@@ -212,84 +241,65 @@ yesBtn.onclick=()=>{
     confettiBlast();
     typeWriter();
     flashEffect();
-    vibrate();
 };
 
-/* HEARTS */
+/* HEART RAIN */
 function heartRain(){
-    const emojis=["❤️","💖","💍","✨","😘"];
     setInterval(()=>{
-        const div=document.createElement("div");
-        div.className="heart";
-        div.innerHTML=emojis[Math.floor(Math.random()*emojis.length)];
-        div.style.left=Math.random()*100+"vw";
-        div.style.animationDuration=Math.random()*3+2+"s";
-        document.body.appendChild(div);
-        setTimeout(()=>div.remove(),5000);
+        const d=document.createElement("div");
+        d.className="heart";
+        d.innerHTML="❤️";
+        d.style.left=Math.random()*100+"vw";
+        d.style.animationDuration=Math.random()*3+2+"s";
+        document.body.appendChild(d);
+        setTimeout(()=>d.remove(),5000);
     },250);
 }
 
-/* PHOTOS */
+/* HEART PHOTOS */
 function photoFloat(){
     const photos=[...Array(14)].map((_,i)=>`p${i+1}.jpeg`);
     setInterval(()=>{
-        const img=document.createElement("img");
-        img.src=photos[Math.floor(Math.random()*photos.length)];
-        img.className="float-img";
-        img.style.left=Math.random()*90+"vw";
-        document.body.appendChild(img);
-        setTimeout(()=>img.remove(),6000);
+        const div=document.createElement("div");
+        div.className="float-img";
+        div.style.left=Math.random()*90+"vw";
+        div.style.backgroundImage=`url(${photos[Math.floor(Math.random()*photos.length)]})`;
+        document.body.appendChild(div);
+        setTimeout(()=>div.remove(),6000);
     },1200);
 }
 
-/* CONFETTI BLAST */
+/* CONFETTI */
 function confettiBlast(){
-    const colors=["#ff4d9d","#ffd1e8","#fff","#ffeb3b"];
+    const colors=["#ff4d9d","#ffd1e8","#fff"];
     for(let i=0;i<80;i++){
-        const div=document.createElement("div");
-        div.className="confetti";
-        div.style.left=Math.random()*100+"vw";
-        div.style.background=colors[Math.floor(Math.random()*colors.length)];
-        div.style.animationDuration=Math.random()*3+2+"s";
-        document.body.appendChild(div);
-        setTimeout(()=>div.remove(),5000);
+        const c=document.createElement("div");
+        c.className="confetti";
+        c.style.left=Math.random()*100+"vw";
+        c.style.background=colors[Math.floor(Math.random()*colors.length)];
+        c.style.animationDuration=Math.random()*3+2+"s";
+        document.body.appendChild(c);
+        setTimeout(()=>c.remove(),5000);
     }
 }
 
-/* TYPEWRITER */
 function typeWriter(){
-    const text="Nikki, I don't need forever promises… I just need YOU, every single day ❤️";
-    let i=0;
-    const box=document.getElementById("typewriter");
-    function play(){
-        if(i<text.length){
-            box.innerHTML+=text.charAt(i);
-            i++;
-            setTimeout(play,70);
-        }
-    }
-    play();
+    const t="Nikki, I just need YOU… today, tomorrow & forever ❤️";
+    let i=0,box=document.getElementById("typewriter");
+    (function play(){
+        if(i<t.length){box.innerHTML+=t.charAt(i++);setTimeout(play,70);}
+    })();
 }
 
-/* PASSWORD */
 function checkPassword(){
-    const pass=document.getElementById("password").value;
-    if(pass==="nikkiforever"){
+    if(document.getElementById("password").value==="nikkiforever"){
         document.getElementById("downloadBox").style.display="block";
-    }else{
-        alert("Wrong password 😜 Hint: Your name + forever ❤️");
-    }
+    }else alert("Wrong password 😜");
 }
 
 function flashEffect(){
     document.body.classList.add("flash");
     setTimeout(()=>document.body.classList.remove("flash"),2500);
-}
-
-function vibrate(){
-    if(navigator.vibrate){
-        navigator.vibrate([200,100,200,100,300]);
-    }
 }
 </script>
 
