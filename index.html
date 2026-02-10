@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Promise Day Nikki ❤️</title>
+
 <style>
 body{
     margin:0;
@@ -33,6 +34,29 @@ body{
 }
 @keyframes floatBubble{50%{transform:translateY(-10px);}}
 
+/* Toast message */
+#msgToast{
+    position:fixed;
+    bottom:120px;
+    left:50%;
+    transform:translateX(-50%) translateY(40px);
+    background:rgba(255,255,255,0.95);
+    color:#2b0020;
+    padding:14px 22px;
+    border-radius:35px;
+    font-size:17px;
+    font-weight:bold;
+    opacity:0;
+    pointer-events:none;
+    transition:0.4s ease;
+    box-shadow:0 0 25px rgba(255,105,180,0.4);
+    z-index:200;
+}
+#msgToast.show-toast{
+    opacity:1;
+    transform:translateX(-50%) translateY(0px);
+}
+
 /* Click heart pop */
 .click-heart{
     position:absolute;
@@ -45,7 +69,7 @@ body{
     to{transform:scale(3);opacity:0;top:-60px;}
 }
 
-/* Falling rain emojis */
+/* Rain emojis */
 .rain-emoji{
     position:fixed;
     top:-50px;
@@ -57,7 +81,7 @@ body{
     to{transform:translateY(110vh);opacity:0;}
 }
 
-/* Card style */
+/* Card UI */
 .card{
     background:rgba(0,0,0,0.65);
     backdrop-filter:blur(16px);
@@ -97,7 +121,7 @@ button{
     margin-top:15px;
 }
 
-/* Floating heart-shaped photos */
+/* Floating heart images */
 .float-img{
     position:absolute;
     width:90px;
@@ -108,7 +132,7 @@ button{
 }
 @keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.08);}}
 
-/* Zoom modal */
+/* Zoom image modal */
 #zoomModal{
     position:fixed;
     inset:0;
@@ -116,7 +140,7 @@ button{
     display:none;
     justify-content:center;
     align-items:center;
-    z-index:200;
+    z-index:300;
 }
 #zoomModal img{
     max-width:80%;
@@ -124,6 +148,7 @@ button{
     border-radius:20px;
     box-shadow:0 0 40px rgba(255,105,180,0.8);
 }
+
 #finalPromise{
     margin-top:15px;
     padding:18px;
@@ -134,9 +159,11 @@ button{
 }
 </style>
 </head>
+
 <body>
 
 <div id="clickBubble">Click Me ❤️</div>
+<div id="msgToast"></div>
 
 <div id="zoomModal" onclick="this.style.display='none'">
     <img id="zoomImg">
@@ -178,7 +205,7 @@ button{
             Nikki ❤️<br>
             I don't promise perfection…  
             I promise effort, loyalty, and a heart  
-            that will always choose **YOU**.  
+            that will always choose <b>YOU</b>.  
             Forever starts with us 💖
         </div>
     </div>
@@ -187,7 +214,45 @@ button{
 <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
 
 <script>
-// FUN TEXT + BUTTONS
+// Romantic click messages
+const messages = [
+  "❤️ Tum meri duniya ho, pyaar tumse hi hai! 💖",
+  "😊 Meri har muskurahat ka wajah tum ho ❤️",
+  "💑 Jab bhi tum pass hoti ho, duniya aur bhi khoobsurat lagti hai! 🌟",
+  "💗 Tum ho toh sab kuch hai, tum bina kuch bhi nahi! 😘",
+  "✨ Har pal tumhari yaadon mein kho jaata hoon! 💭❤️",
+  "💓 Mera dil sirf tumhare naam pe dhadakta hai! 🎶",
+  "❤️ Tum meri pehli aur aakhri mohabbat ho! ✨💞",
+  "💕 Tum mere liye sabse khaas ho 😍",
+  "🌹 Teri aankhon mein main apna sapna dekhta hoon 💖",
+  "💘 Tumhe paana mera sapna hai ❤️",
+  "😇 Tum meri khushi ka reason ho 💫",
+  "💞 Tumhare saath har moment magic lagta hai ✨",
+  "💌 Tum meri life ki sweetest emotion ho 🍬❤️",
+  "🔥 Tumhari ek smile meri duniya roshan kar deti hai 😃",
+  "🌙 Chaand bhi tumhari khoobsurati ke samne sharmata hai 💫",
+  "💝 Tum meri heartbeat ki rhythm ho ❤️🎵",
+  "🥰 Mere dil ne tumhe apna forever choose kiya 💗",
+  "💍 Tum ho aur bas tum ho — forever aur ever 💕",
+  "💋 Tumhare thoughts hi mujhe khush rakhte hain 😘",
+  "❣️ Tum mere har sapne mein ho, har subah mein ho 🌅❤️"
+];
+
+// Show toast
+function showRandomMsg(){
+    const toast=document.getElementById("msgToast");
+    const rand=messages[Math.floor(Math.random()*messages.length)];
+    toast.innerText=rand;
+    toast.classList.add("show-toast");
+    setTimeout(()=>toast.classList.remove("show-toast"),2200);
+}
+
+// Click bubble click
+document.getElementById("clickBubble").onclick = (e) => {
+    e.stopPropagation();
+    showRandomMsg();
+};
+
 const noBtn=document.getElementById("noBtn");
 const yesBtn=document.getElementById("yesBtn");
 const asking=document.getElementById("asking");
@@ -202,7 +267,7 @@ noBtn.onclick=()=>{
     noBtn.innerText=noMsgs[Math.floor(Math.random()*noMsgs.length)];
 };
 
-// CLICK ANYWHERE → HEART POP
+// BODY CLICK → HEART POP
 document.body.addEventListener("click",e=>{
     const h=document.createElement("div");
     h.className="click-heart";
@@ -213,17 +278,17 @@ document.body.addEventListener("click",e=>{
     setTimeout(()=>h.remove(),1000);
 });
 
-// YES BUTTON CLICK → RAIN + FLOAT PHOTOS + TYPEWRITER
+// YES CLICK → BEGIN CELEBRATION
 yesBtn.onclick=()=>{
     asking.style.display="none";
     celebration.style.display="block";
     song.play();
-    emojiRain();   // working rain
-    photoFloat();  // floating photos
-    typeWriter();  // text intro
+    emojiRain();  
+    photoFloat();
+    typeWriter();
 };
 
-// EMOJI RAIN FUNCTION
+// Working emoji rain
 function emojiRain(){
     const emojis=["❤️","😘","💖","💘","💕"];
     setInterval(()=>{
@@ -237,16 +302,15 @@ function emojiRain(){
     },150);
 }
 
-// FLOATING HEART-SHAPED PHOTOS
+// Floating heart photos
 function photoFloat(){
     const photos=[...Array(14)].map((_,i)=>`p${i+1}.jpeg`);
     setInterval(()=>{
         const div=document.createElement("div");
         div.className="float-img";
         div.style.left=Math.random()*90+"vw";
-        div.style.top=Math.random()*10+"vh";
+        div.style.top=(Math.random()*10)+"vh";
         const imgSrc=photos[Math.floor(Math.random()*photos.length)];
-
         div.innerHTML=`
         <svg viewBox="0 0 100 90">
             <defs>
@@ -261,29 +325,25 @@ function photoFloat(){
                    clip-path="url(#heartClip)"
                    preserveAspectRatio="xMidYMid slice"/>
         </svg>`;
-
         div.onclick=(e)=>{
             e.stopPropagation();
             document.getElementById("zoomImg").src=imgSrc;
             document.getElementById("zoomModal").style.display="flex";
         };
-
         document.body.appendChild(div);
         setTimeout(()=>div.remove(),6000);
     },1200);
 }
 
-// TYPEWRITER TEXT
+// Typewriter message
 function typeWriter(){
-    const message="Nikki, I just need YOU… today, tomorrow & forever ❤️";
+    const text="Nikki, I just need YOU… today, tomorrow & forever ❤️";
     let i=0, box=document.getElementById("typewriter");
     (function play(){
-        if(i<message.length){
-            box.innerHTML+=message.charAt(i++);
-            setTimeout(play,70);
-        }
+        if(i<text.length){box.innerHTML+=text.charAt(i++);setTimeout(play,70);}
     })();
 }
 </script>
+
 </body>
 </html>
