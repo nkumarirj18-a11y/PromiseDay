@@ -214,7 +214,7 @@ button{
 <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
 
 <script>
-// Romantic click messages
+// ❤️ Romantic click messages (20 lines)
 const messages = [
   "❤️ Tum meri duniya ho, pyaar tumse hi hai! 💖",
   "😊 Meri har muskurahat ka wajah tum ho ❤️",
@@ -238,16 +238,16 @@ const messages = [
   "❣️ Tum mere har sapne mein ho, har subah mein ho 🌅❤️"
 ];
 
-// Show toast
+// Toast message function (10s display)
 function showRandomMsg(){
     const toast=document.getElementById("msgToast");
     const rand=messages[Math.floor(Math.random()*messages.length)];
     toast.innerText=rand;
     toast.classList.add("show-toast");
-    setTimeout(()=>toast.classList.remove("show-toast"),2200);
+    setTimeout(()=>toast.classList.remove("show-toast"),10000);
 }
 
-// Click bubble click
+// Click bubble triggers message
 document.getElementById("clickBubble").onclick = (e) => {
     e.stopPropagation();
     showRandomMsg();
@@ -267,7 +267,7 @@ noBtn.onclick=()=>{
     noBtn.innerText=noMsgs[Math.floor(Math.random()*noMsgs.length)];
 };
 
-// BODY CLICK → HEART POP
+// Body click → heart pop
 document.body.addEventListener("click",e=>{
     const h=document.createElement("div");
     h.className="click-heart";
@@ -278,12 +278,12 @@ document.body.addEventListener("click",e=>{
     setTimeout(()=>h.remove(),1000);
 });
 
-// YES CLICK → BEGIN CELEBRATION
+// Yes click → celebration
 yesBtn.onclick=()=>{
     asking.style.display="none";
     celebration.style.display="block";
     song.play();
-    emojiRain();  
+    emojiRain();
     photoFloat();
     typeWriter();
 };
