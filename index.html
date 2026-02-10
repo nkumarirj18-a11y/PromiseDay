@@ -31,8 +31,9 @@ body{
     animation:floatBubble 3s ease-in-out infinite;
     z-index:100;
 }
+@keyframes floatBubble{50%{transform:translateY(-10px);}}
 
-/* Click heart */
+/* Click heart pop */
 .click-heart{
     position:absolute;
     font-size:36px;
@@ -42,6 +43,18 @@ body{
 @keyframes pop{
     from{transform:scale(0);opacity:1;}
     to{transform:scale(3);opacity:0;top:-60px;}
+}
+
+/* Falling rain emojis */
+.rain-emoji{
+    position:fixed;
+    top:-50px;
+    font-size:28px;
+    pointer-events:none;
+    animation:fallDown linear forwards;
+}
+@keyframes fallDown{
+    to{transform:translateY(110vh);opacity:0;}
 }
 
 /* Card style */
@@ -83,13 +96,6 @@ button{
     color:#ffd1e8;
     margin-top:15px;
 }
-.heart{
-    position:absolute;
-    top:-40px;
-    font-size:28px;
-    animation:fall linear forwards;
-    pointer-events:none;
-}
 
 /* Floating heart-shaped photos */
 .float-img{
@@ -100,15 +106,9 @@ button{
     z-index:5;
     animation:floatBubble 6s linear infinite, pulse 2.5s ease-in-out infinite;
 }
-@keyframes floatBubble{
-    0%{transform:translate(0,0) scale(1);opacity:1;}
-    25%{transform:translate(20px,-30vh) scale(1.05);}
-    50%{transform:translate(-15px,-60vh) scale(1.08);}
-    75%{transform:translate(25px,-90vh) scale(1.03);}
-    100%{transform:translate(0,-120vh) scale(1);opacity:0;}
-}
 @keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.08);}}
 
+/* Zoom modal */
 #zoomModal{
     position:fixed;
     inset:0;
@@ -124,7 +124,6 @@ button{
     border-radius:20px;
     box-shadow:0 0 40px rgba(255,105,180,0.8);
 }
-
 #finalPromise{
     margin-top:15px;
     padding:18px;
@@ -136,6 +135,7 @@ button{
 </style>
 </head>
 <body>
+
 <div id="clickBubble">Click Me ❤️</div>
 
 <div id="zoomModal" onclick="this.style.display='none'">
@@ -149,7 +149,10 @@ button{
 
     <div id="asking">
         <!-- Tenor GIF embed -->
-        <div class="tenor-gif-embed" data-postid="15580452" data-share-method="host" data-aspect-ratio="1.06667" data-width="100%">
+        <div class="tenor-gif-embed" data-postid="15580452"
+             data-share-method="host"
+             data-aspect-ratio="1.06667"
+             data-width="100%">
             <a href="https://tenor.com/view/hug-love-promise-comfort-cuddle-gif-15580452">Hug Love Sticker</a> 
             from <a href="https://tenor.com/search/hug-stickers">Hug Stickers</a>
         </div>
@@ -173,9 +176,9 @@ button{
 
         <div id="finalPromise">
             Nikki ❤️<br>
-            I don’t promise perfection…  
+            I don't promise perfection…  
             I promise effort, loyalty, and a heart  
-            that will always choose <b>YOU</b>.  
+            that will always choose **YOU**.  
             Forever starts with us 💖
         </div>
     </div>
@@ -184,7 +187,7 @@ button{
 <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
 
 <script>
-// No button fun
+// FUN TEXT + BUTTONS
 const noBtn=document.getElementById("noBtn");
 const yesBtn=document.getElementById("yesBtn");
 const asking=document.getElementById("asking");
@@ -199,7 +202,7 @@ noBtn.onclick=()=>{
     noBtn.innerText=noMsgs[Math.floor(Math.random()*noMsgs.length)];
 };
 
-// Click anywhere → pop heart
+// CLICK ANYWHERE → HEART POP
 document.body.addEventListener("click",e=>{
     const h=document.createElement("div");
     h.className="click-heart";
@@ -210,38 +213,38 @@ document.body.addEventListener("click",e=>{
     setTimeout(()=>h.remove(),1000);
 });
 
-// Yes button → celebration
+// YES BUTTON CLICK → RAIN + FLOAT PHOTOS + TYPEWRITER
 yesBtn.onclick=()=>{
     asking.style.display="none";
     celebration.style.display="block";
     song.play();
-    emojiRain();       // updated emoji rain
-    photoFloat();      // floating heart-shaped photos
-    typeWriter();
+    emojiRain();   // working rain
+    photoFloat();  // floating photos
+    typeWriter();  // text intro
 };
 
-// Emoji rain (❤️ + 😘 + 💖)
+// EMOJI RAIN FUNCTION
 function emojiRain(){
-    const emojis = ["❤️","😘","💖","💘","💕"];
+    const emojis=["❤️","😘","💖","💘","💕"];
     setInterval(()=>{
-        const d = document.createElement("div");
-        d.className = "heart";
-        d.innerHTML = emojis[Math.floor(Math.random()*emojis.length)];
-        d.style.left = Math.random()*100 + "vw";
-        d.style.animationDuration = (Math.random()*3 + 2) + "s";
+        const d=document.createElement("div");
+        d.className="rain-emoji";
+        d.innerHTML=emojis[Math.floor(Math.random()*emojis.length)];
+        d.style.left=Math.random()*100+"vw";
+        d.style.animationDuration=(Math.random()*2+3)+"s";
         document.body.appendChild(d);
-        setTimeout(()=>d.remove(),5000);
-    },200);
+        setTimeout(()=>d.remove(),5500);
+    },150);
 }
 
-// Floating heart-shaped photos bubble
+// FLOATING HEART-SHAPED PHOTOS
 function photoFloat(){
     const photos=[...Array(14)].map((_,i)=>`p${i+1}.jpeg`);
     setInterval(()=>{
         const div=document.createElement("div");
         div.className="float-img";
         div.style.left=Math.random()*90+"vw";
-        div.style.top=(Math.random()*10)+"vh";
+        div.style.top=Math.random()*10+"vh";
         const imgSrc=photos[Math.floor(Math.random()*photos.length)];
 
         div.innerHTML=`
@@ -270,12 +273,15 @@ function photoFloat(){
     },1200);
 }
 
-// Typewriter
+// TYPEWRITER TEXT
 function typeWriter(){
-    const t="Nikki, I just need YOU… today, tomorrow & forever ❤️";
-    let i=0,box=document.getElementById("typewriter");
+    const message="Nikki, I just need YOU… today, tomorrow & forever ❤️";
+    let i=0, box=document.getElementById("typewriter");
     (function play(){
-        if(i<t.length){box.innerHTML+=t.charAt(i++);setTimeout(play,70);}
+        if(i<message.length){
+            box.innerHTML+=message.charAt(i++);
+            setTimeout(play,70);
+        }
     })();
 }
 </script>
