@@ -215,22 +215,23 @@ yesBtn.onclick=()=>{
     asking.style.display="none";
     celebration.style.display="block";
     song.play();
-    heartRain();
-    photoFloat();
+    emojiRain();       // updated emoji rain
+    photoFloat();      // floating heart-shaped photos
     typeWriter();
 };
 
-// Heart rain
-function heartRain(){
+// Emoji rain (❤️ + 😘 + 💖)
+function emojiRain(){
+    const emojis = ["❤️","😘","💖","💘","💕"];
     setInterval(()=>{
-        const d=document.createElement("div");
-        d.className="heart";
-        d.innerHTML="❤️";
-        d.style.left=Math.random()*100+"vw";
-        d.style.animationDuration=(Math.random()*3+2)+"s";
+        const d = document.createElement("div");
+        d.className = "heart";
+        d.innerHTML = emojis[Math.floor(Math.random()*emojis.length)];
+        d.style.left = Math.random()*100 + "vw";
+        d.style.animationDuration = (Math.random()*3 + 2) + "s";
         document.body.appendChild(d);
         setTimeout(()=>d.remove(),5000);
-    },250);
+    },200);
 }
 
 // Floating heart-shaped photos bubble
