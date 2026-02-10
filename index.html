@@ -17,6 +17,8 @@ body{
     color:#fff;
     cursor:pointer;
 }
+
+/* Click bubble */
 #clickBubble{
     position:fixed;
     bottom:20px;
@@ -29,17 +31,20 @@ body{
     animation:floatBubble 3s ease-in-out infinite;
     z-index:100;
 }
-@keyframes floatBubble{50%{transform:translateY(-10px);}}
+
+/* Click heart */
 .click-heart{
     position:absolute;
-    font-size:22px;
+    font-size:36px;
     animation:pop 1s ease-out forwards;
     pointer-events:none;
 }
 @keyframes pop{
     from{transform:scale(0);opacity:1;}
-    to{transform:scale(2);opacity:0;top:-40px;}
+    to{transform:scale(3);opacity:0;top:-60px;}
 }
+
+/* Card style */
 .card{
     background:rgba(0,0,0,0.65);
     backdrop-filter:blur(16px);
@@ -85,20 +90,25 @@ button{
     animation:fall linear forwards;
     pointer-events:none;
 }
-@keyframes fall{
-    to{transform:translateY(110vh) rotate(360deg);opacity:0;}
-}
+
+/* Floating heart-shaped photos */
 .float-img{
     position:absolute;
-    bottom:-120px;
     width:90px;
     height:90px;
-    animation:floatUp 6s linear forwards, pulse 2.5s ease-in-out infinite;
-    z-index:5;
     cursor:pointer;
+    z-index:5;
+    animation:floatBubble 6s linear infinite, pulse 2.5s ease-in-out infinite;
 }
-@keyframes floatUp{to{transform:translateY(-120vh) rotate(15deg);}}
+@keyframes floatBubble{
+    0%{transform:translate(0,0) scale(1);opacity:1;}
+    25%{transform:translate(20px,-30vh) scale(1.05);}
+    50%{transform:translate(-15px,-60vh) scale(1.08);}
+    75%{transform:translate(25px,-90vh) scale(1.03);}
+    100%{transform:translate(0,-120vh) scale(1);opacity:0;}
+}
 @keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.08);}}
+
 #zoomModal{
     position:fixed;
     inset:0;
@@ -114,6 +124,7 @@ button{
     border-radius:20px;
     box-shadow:0 0 40px rgba(255,105,180,0.8);
 }
+
 #finalPromise{
     margin-top:15px;
     padding:18px;
@@ -173,13 +184,22 @@ button{
 <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
 
 <script>
+// No button fun
 const noBtn=document.getElementById("noBtn");
 const yesBtn=document.getElementById("yesBtn");
 const asking=document.getElementById("asking");
 const celebration=document.getElementById("celebration");
 const song=document.getElementById("song");
 
-// Click anywhere to create heart
+const noMsgs=["Nice try 😏","Dubara socho 😜","Escape not allowed 🚫","Dil already mera hai ❤️"];
+noBtn.onclick=()=>{
+    noBtn.style.position="absolute";
+    noBtn.style.left=Math.random()*80+"vw";
+    noBtn.style.top=Math.random()*80+"vh";
+    noBtn.innerText=noMsgs[Math.floor(Math.random()*noMsgs.length)];
+};
+
+// Click anywhere → pop heart
 document.body.addEventListener("click",e=>{
     const h=document.createElement("div");
     h.className="click-heart";
@@ -189,15 +209,6 @@ document.body.addEventListener("click",e=>{
     document.body.appendChild(h);
     setTimeout(()=>h.remove(),1000);
 });
-
-// No button fun messages
-const noMsgs=["Nice try 😏","Dubara socho 😜","Escape not allowed 🚫","Dil already mera hai ❤️"];
-noBtn.onclick=()=>{
-    noBtn.style.position="absolute";
-    noBtn.style.left=Math.random()*80+"vw";
-    noBtn.style.top=Math.random()*80+"vh";
-    noBtn.innerText=noMsgs[Math.floor(Math.random()*noMsgs.length)];
-};
 
 // Yes button → celebration
 yesBtn.onclick=()=>{
@@ -216,19 +227,20 @@ function heartRain(){
         d.className="heart";
         d.innerHTML="❤️";
         d.style.left=Math.random()*100+"vw";
-        d.style.animationDuration=Math.random()*3+2+"s";
+        d.style.animationDuration=(Math.random()*3+2)+"s";
         document.body.appendChild(d);
         setTimeout(()=>d.remove(),5000);
     },250);
 }
 
-// Floating heart-shaped photos
+// Floating heart-shaped photos bubble
 function photoFloat(){
     const photos=[...Array(14)].map((_,i)=>`p${i+1}.jpeg`);
     setInterval(()=>{
         const div=document.createElement("div");
         div.className="float-img";
         div.style.left=Math.random()*90+"vw";
+        div.style.top=(Math.random()*10)+"vh";
         const imgSrc=photos[Math.floor(Math.random()*photos.length)];
 
         div.innerHTML=`
@@ -257,7 +269,7 @@ function photoFloat(){
     },1200);
 }
 
-// Typewriter message
+// Typewriter
 function typeWriter(){
     const t="Nikki, I just need YOU… today, tomorrow & forever ❤️";
     let i=0,box=document.getElementById("typewriter");
