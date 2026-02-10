@@ -32,9 +32,7 @@ body{
     animation:floatBubble 3s ease-in-out infinite;
     z-index:100;
 }
-@keyframes floatBubble{
-    50%{transform:translateY(-10px);}
-}
+@keyframes floatBubble{50%{transform:translateY(-10px);}}
 
 /* HEART POP ON CLICK */
 .click-heart{
@@ -44,16 +42,8 @@ body{
     pointer-events:none;
 }
 @keyframes pop{
-    0%{transform:scale(0);opacity:1;}
-    100%{transform:scale(2);opacity:0;top:-40px;}
-}
-
-/* FLASH */
-.flash{animation:flashBg 0.4s ease-in-out 6;}
-@keyframes flashBg{
-    0%{background:#ff5fa2;}
-    50%{background:#fff;}
-    100%{background:#ff5fa2;}
+    from{transform:scale(0);opacity:1;}
+    to{transform:scale(2);opacity:0;top:-40px;}
 }
 
 /* CARD */
@@ -89,11 +79,7 @@ button,input{
 }
 
 #yesBtn{background:#ff4d9d;color:#2b0020;}
-#noBtn{
-    background:transparent;
-    color:#ccc;
-    border:1px solid #777;
-}
+#noBtn{background:transparent;color:#ccc;border:1px solid #777;}
 
 #celebration{display:none;}
 
@@ -116,53 +102,66 @@ button,input{
     to{transform:translateY(110vh) rotate(360deg);opacity:0;}
 }
 
-/* ❤️ HEART SHAPED FLOATING PHOTOS ❤️ */
+/* ❤️ FLOATING HEART PHOTOS (PULSE) */
 .float-img{
     position:absolute;
     bottom:-120px;
     width:90px;
     height:90px;
-    background-size:cover;
-    background-position:center;
-    clip-path: path("M45 15 C45 -5 0 -5 0 20 C0 45 45 75 45 75 C45 75 90 45 90 20 C90 -5 45 -5 45 15 Z");
-    box-shadow:
-        0 0 25px rgba(255,105,180,0.9),
-        0 10px 30px rgba(0,0,0,0.6);
-    animation:floatUp 6s linear forwards;
+    animation:floatUp 6s linear forwards, pulse 2.5s ease-in-out infinite;
     z-index:5;
+    cursor:pointer;
 }
-@keyframes floatUp{
-    to{transform:translateY(-120vh) rotate(15deg);}
-}
-
-#typewriter{margin-top:15px;font-size:16px;}
-
-/* CONFETTI */
-.confetti{
-    position:absolute;
-    width:10px;
-    height:10px;
-    top:-10px;
-    animation:confettiFall linear forwards;
-}
-@keyframes confettiFall{
-    to{transform:translateY(110vh) rotate(720deg);opacity:0;}
+@keyframes floatUp{to{transform:translateY(-120vh) rotate(15deg);}}
+@keyframes pulse{
+    0%,100%{transform:scale(1);}
+    50%{transform:scale(1.08);}
 }
 
-/* PASSWORD */
-#passwordBox{
-    margin-top:20px;
-    padding:15px;
+.float-img svg{
+    width:100%;
+    height:100%;
+    filter:
+      drop-shadow(0 0 18px rgba(255,105,180,0.9))
+      drop-shadow(0 10px 25px rgba(0,0,0,0.6));
+}
+
+/* ZOOM MODAL */
+#zoomModal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.8);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:200;
+}
+#zoomModal img{
+    max-width:80%;
+    max-height:80%;
     border-radius:20px;
-    background:rgba(255,255,255,0.1);
+    box-shadow:0 0 40px rgba(255,105,180,0.8);
 }
-#downloadBox{display:none;margin-top:15px;}
+
+/* FINAL PROMISE */
+#finalPromise{
+    display:none;
+    margin-top:15px;
+    padding:18px;
+    border-radius:20px;
+    background:rgba(255,255,255,0.12);
+    font-size:15px;
+    line-height:1.6;
+}
 </style>
 </head>
 
 <body>
 
 <div id="clickBubble">Click Me ❤️</div>
+<div id="zoomModal" onclick="this.style.display='none'">
+    <img id="zoomImg">
+</div>
 
 <audio id="song" src="love.mp3"></audio>
 
@@ -189,18 +188,18 @@ button,input{
         <div id="typewriter"></div>
 
         <div id="passwordBox">
-            <p>🔐 Enter the password to unlock my love letter</p>
+            <p>🔐 Enter password for one last promise</p>
             <input type="password" id="password">
             <br>
             <button onclick="checkPassword()">Unlock 💖</button>
+        </div>
 
-            <div id="downloadBox">
-                <a href="letter.docx" download>
-                    <button style="background:#ffd1e8;color:#2b0020;">
-                        Download Love Letter 📄❤️
-                    </button>
-                </a>
-            </div>
+        <div id="finalPromise">
+            Nikki ❤️<br>
+            I don’t promise perfection…  
+            I promise effort, loyalty, and a heart  
+            that will always choose **YOU**.  
+            Forever starts with us 💖
         </div>
     </div>
 </div>
@@ -212,7 +211,7 @@ const asking=document.getElementById("asking");
 const celebration=document.getElementById("celebration");
 const song=document.getElementById("song");
 
-/* CLICK ANYWHERE HEART */
+/* CLICK HEART */
 document.body.addEventListener("click",e=>{
     const h=document.createElement("div");
     h.className="click-heart";
@@ -224,7 +223,7 @@ document.body.addEventListener("click",e=>{
 });
 
 /* NO BUTTON FUN */
-const noMsgs=["Nice try 😏","Dubara socho 😜","Escape not allowed 🚫","Dil mera hai ❤️"];
+const noMsgs=["Nice try 😏","Dubara socho 😜","Escape not allowed 🚫","Dil already mera hai ❤️"];
 noBtn.onclick=()=>{
     noBtn.style.position="absolute";
     noBtn.style.left=Math.random()*80+"vw";
@@ -238,9 +237,7 @@ yesBtn.onclick=()=>{
     song.play();
     heartRain();
     photoFloat();
-    confettiBlast();
     typeWriter();
-    flashEffect();
 };
 
 /* HEART RAIN */
@@ -256,33 +253,42 @@ function heartRain(){
     },250);
 }
 
-/* HEART PHOTOS */
+/* HEART PHOTOS + ZOOM */
 function photoFloat(){
     const photos=[...Array(14)].map((_,i)=>`p${i+1}.jpeg`);
     setInterval(()=>{
         const div=document.createElement("div");
         div.className="float-img";
         div.style.left=Math.random()*90+"vw";
-        div.style.backgroundImage=`url(${photos[Math.floor(Math.random()*photos.length)]})`;
+        const imgSrc=photos[Math.floor(Math.random()*photos.length)];
+
+        div.innerHTML=`
+        <svg viewBox="0 0 100 90">
+            <defs>
+                <clipPath id="heartClip">
+                    <path d="M50 15 C50 -5 0 -5 0 25
+                             C0 55 50 85 50 85
+                             C50 85 100 55 100 25
+                             C100 -5 50 -5 50 15 Z"/>
+                </clipPath>
+            </defs>
+            <image href="${imgSrc}" width="100%" height="100%"
+                   clip-path="url(#heartClip)"
+                   preserveAspectRatio="xMidYMid slice"/>
+        </svg>`;
+
+        div.onclick=(e)=>{
+            e.stopPropagation();
+            document.getElementById("zoomImg").src=imgSrc;
+            document.getElementById("zoomModal").style.display="flex";
+        };
+
         document.body.appendChild(div);
         setTimeout(()=>div.remove(),6000);
     },1200);
 }
 
-/* CONFETTI */
-function confettiBlast(){
-    const colors=["#ff4d9d","#ffd1e8","#fff"];
-    for(let i=0;i<80;i++){
-        const c=document.createElement("div");
-        c.className="confetti";
-        c.style.left=Math.random()*100+"vw";
-        c.style.background=colors[Math.floor(Math.random()*colors.length)];
-        c.style.animationDuration=Math.random()*3+2+"s";
-        document.body.appendChild(c);
-        setTimeout(()=>c.remove(),5000);
-    }
-}
-
+/* TYPEWRITER */
 function typeWriter(){
     const t="Nikki, I just need YOU… today, tomorrow & forever ❤️";
     let i=0,box=document.getElementById("typewriter");
@@ -291,15 +297,11 @@ function typeWriter(){
     })();
 }
 
+/* FINAL PROMISE */
 function checkPassword(){
     if(document.getElementById("password").value==="nikkiforever"){
-        document.getElementById("downloadBox").style.display="block";
+        document.getElementById("finalPromise").style.display="block";
     }else alert("Wrong password 😜");
-}
-
-function flashEffect(){
-    document.body.classList.add("flash");
-    setTimeout(()=>document.body.classList.remove("flash"),2500);
 }
 </script>
 
